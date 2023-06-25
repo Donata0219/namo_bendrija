@@ -23,19 +23,16 @@ class Skaitiklis (models.Model):
 class Savininkas (models.Model):
     first_name = models.CharField(max_length=80)
     last_name = models.CharField(max_length=80)
-    butas = models.IntegerField(
-        Butas,
-        on_delete=models.CASCADE,
-    )
+    phone_number = models.IntegerField(max_length=20)
+
     def __str__(self):
         return f"{self.first_name}  {self.last_name}"
 
 class Butas (models.Model):
     buto_numeris = models.IntegerField(max_length=2)
-    savininkas = models.ForeignKey(Savininkas, on_delete=models.SET_NULL, null=True)
+    savininkas = models.OneToOneField(Savininkas, on_delete=models.SET_NULL, null=True)
     buto_plotas = models.IntegerField(max_length=3)
     zmoniu_skaicius = models.IntegerField(max_length=2)
-
     def __str__(self):
         return f"{self.buto_numeris}  {self.savininkas} {self.buto_plotas} {self.zmoniu_skaicius}"
 
