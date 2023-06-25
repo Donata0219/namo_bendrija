@@ -4,6 +4,10 @@ from django.contrib import admin
 
 from .models import Skaitiklis, Savininkas, Butas
 
-admin.site.register(Skaitiklis)
+class SkaitiklisAdmin(admin.ModelAdmin):
+    readonly_fields = ("skirtumas",)
+    list_display = ("skaitiklio_vieta", "nuo_reiksme", "iki_reiksme",)
+
+admin.site.register(Skaitiklis, SkaitiklisAdmin)
 admin.site.register(Savininkas)
 admin.site.register(Butas)
