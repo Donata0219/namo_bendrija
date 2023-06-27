@@ -7,7 +7,7 @@ from .models import Skaitiklis, Savininkas, Butas, Saskaita, Elektrosskaitiklis
 
 class SkaitiklisAdmin(admin.ModelAdmin):
     readonly_fields = ("skirtumas",)
-    list_display = ("skaitiklio_vieta", "nuo_reiksme", "iki_reiksme",)
+    list_display = ("skaitiklio_vieta", "nuo_reiksme", "iki_reiksme", "skirtumas",)
 
 class SaskaitaAdmin(admin.ModelAdmin):
     list_display = [
@@ -17,6 +17,12 @@ class SaskaitaAdmin(admin.ModelAdmin):
         "salto_vandens_ikainis",
         "kaupiamasis",
         "administravimo",
+    ]
+    readonly_fields = [
+        "karsto_vandens_kiekis",
+        "suma_karsto_vandens",
+        "salto_vandens_kiekis",
+        "suma_salto_vandens",
     ]
 
 class ElektrosskaitiklisAdmin(admin.ModelAdmin):
