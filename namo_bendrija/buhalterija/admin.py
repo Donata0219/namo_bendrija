@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Skaitiklis, Savininkas, Butas, Saskaita, Elektrosskaitiklis
+from .models import Skaitiklis, Savininkas, Butas, Saskaita, ElektrosSkaitiklis
 
 
 class SkaitiklisAdmin(admin.ModelAdmin):
@@ -17,23 +17,43 @@ class SaskaitaAdmin(admin.ModelAdmin):
         "salto_vandens_ikainis",
         "kaupiamasis",
         "administravimo",
+        "karsto_vandens_kiekis",
+        "suma_karsto_vandens",
+        "salto_vandens_kiekis",
+        "suma_salto_vandens",
+        "buto_sildymas",
+        "moketi",
     ]
     readonly_fields = [
         "karsto_vandens_kiekis",
         "suma_karsto_vandens",
         "salto_vandens_kiekis",
         "suma_salto_vandens",
+        "bendra_elektra",
+        "buto_sildymas",
+        "moketi",
     ]
 
-class ElektrosskaitiklisAdmin(admin.ModelAdmin):
+class ElektrosSkaitiklisAdmin(admin.ModelAdmin):
     readonly_fields = ("skirtumas_el", "buto_el")
-    list_display = ("nuo_reiksme_el", "iki_reiksme_el", "ikainis_el",)
+    list_display = (
+        "nuo_reiksme_el",
+        "iki_reiksme_el",
+        "ikainis_el",
+        "skirtumas_el",
+        "buto_el"
+    )
 
 class ButasAdmin (admin.ModelAdmin):
     list_display = ("buto_numeris", "buto_plotas", "zmoniu_skaicius")
+
+# class SildymasAdmin (admin.ModelAdmin):
+#     list_display = ("bendra_sildymo_suma",)
+
 
 admin.site.register(Skaitiklis, SkaitiklisAdmin)
 admin.site.register(Savininkas)
 admin.site.register(Butas, ButasAdmin)
 admin.site.register(Saskaita, SaskaitaAdmin)
-admin.site.register(Elektrosskaitiklis, ElektrosskaitiklisAdmin)
+admin.site.register(ElektrosSkaitiklis, ElektrosSkaitiklisAdmin)
+# admin.site.register(Sildymas, SildymasAdmin)
