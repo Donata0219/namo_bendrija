@@ -165,16 +165,16 @@ class Saskaita (models.Model):
         # paskaiciuojama suma vienam butuo uz sildyma. Bendra namo sildymo sumo dalinama ir buto ploto
         self.buto_sildymas = self.bendra_sildymo_suma / Butas.objects.last().buto_plotas
 
-        # TODO suskaiciuojama suma, uz visus mokescius
-        #  self.moketi = (
-        #         self.suma_salto_vandens +
-        #         self.suma_karsto_vandens +
-        #         self.gyvatukas +
-        #         self.bendra_elektra +
-        #         self.kaupiamasis +
-        #         self.administravimo +
-        #         self.buto_sildymas
-        # )
+        #  suskaiciuojama suma, uz visus mokescius
+        self.moketi = (
+                self.suma_salto_vandens +
+                self.suma_karsto_vandens +
+                self.gyvatukas +
+                self.bendra_elektra +
+                self.kaupiamasis +
+                self.administravimo +
+                self.buto_sildymas
+        )
     #
 
         super().save(*args, **kwargs)
