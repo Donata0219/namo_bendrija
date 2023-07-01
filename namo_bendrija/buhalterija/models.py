@@ -1,9 +1,12 @@
 import datetime
 
-
+from _decimal import Decimal
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
+
+from naudotojai.models import MyUser
+
 
 # Create your models here.
 
@@ -25,11 +28,14 @@ class Skaitiklis (models.Model):
     nuo_reiksme = models.IntegerField(verbose_name="Nuo", null=True, blank=True)
     iki_reiksme = models.IntegerField(verbose_name="Iki")  #įvesti skaitilnių parodymus
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     skirtumas = models.IntegerField()
-    butas = models.ForeignKey( "Butas", on_delete=models.SET_NULL, null=True )
+    butas = models.ForeignKey( "Butas", on_delete=models.SET_NULL, null=True, blank=True )
     # pasirasysiu save metodas:
 
     def save (self, *args, **kwargs):
+        if self.iki_reiksme < self.nuo_reiksme:
+            raise ValueError('`Iki reikšmė` turi būti didesnė arba lygi `Nuo reikšmei`')
     #     paiimame naujausia buvusia reiksme "iki" ir irasome i reiksme "nuo"
     # isaugoti
         try:
@@ -55,10 +61,12 @@ class Skaitiklis (models.Model):
 
 
 class Savininkas (models.Model):
-    first_name = models.CharField(max_length=80)
-    last_name = models.CharField(max_length=80)
-    phone_number = models.IntegerField()
-
+    first_name = models.CharField(verbose_name= "Vardas", max_length=80)
+    last_name = models.CharField(verbose_name="Pavardė", max_length=80)
+    phone_number = models.IntegerField(verbose_name="Telefono numeris")
+    naudotojo_profilis = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         # kad rodytų tvarkingus lietuviškus pavadinimus
@@ -71,9 +79,10 @@ class Savininkas (models.Model):
 class Butas (models.Model):
     buto_numeris = models.IntegerField()
     savininkas = models.OneToOneField(Savininkas, on_delete=models.SET_NULL, null=True)
-    buto_plotas = models.IntegerField()
+    buto_plotas = models.FloatField()
     zmoniu_skaicius = models.IntegerField()
-
+    # created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         # kad rodytų tvarkingus lietuviškus pavadinimus
         verbose_name = "Butas"
@@ -115,29 +124,49 @@ class ElektrosSkaitiklis(models.Model):
 
 
 class Saskaita (models.Model):
+    # BUTO_SASKAITA_CHOICES = [
+    #     ('sausis', 'Sausis'),
+    #     ('vasaris', 'Vasaris'),
+    #     ('kovas', 'Kovas'),
+    #     ('balandis', 'Balandis'),
+    #     ('geguze', 'Gegužė'),
+    #     ('birzelis', 'Birželis'),
+    #     ('liepa', 'Liepa'),
+    #     ('rugpjutis', 'Rugpjūtis'),
+    #     ('rugsejis', 'Rugsėjis'),
+    #     ('spalis', 'Spalis'),
+    #     ('lapkritis', 'Lapkritis'),
+    #     ('gruodis', 'Gruodis'),
+    # ]
+
     butas = models.ForeignKey(Butas, on_delete=models.SET_NULL, null=True )
     skaitiklis = models.ForeignKey(Skaitiklis, on_delete=models.SET_NULL, null=True)# ar turi buti SET_NULL, ar CASCADE?
     karsto_vandens_kiekis = models.IntegerField(verbose_name="Suvartoto karšto vandens kiekis", default=0)
     karsto_vandens_ikainis = models.FloatField(verbose_name="Karšto vandens įkainis")
-    suma_karsto_vandens = models.FloatField(verbose_name="Už karštą vandenį", default=0)
+    suma_karsto_vandens = models.DecimalField(verbose_name="Už karštą vandenį", default=Decimal('0.00'), max_digits=5, decimal_places=2)
 
     salto_vandens_kiekis = models.IntegerField(verbose_name="Suvartoto šalto vandens kiekis", default=0)
     salto_vandens_ikainis = models.FloatField(verbose_name="Šalto vandens įkainis")
-    suma_salto_vandens = models.FloatField(verbose_name="Už šaltą vandenį", default=0)
+    suma_salto_vandens = models.DecimalField(verbose_name="Už šaltą vandenį", default=Decimal('0.00'), max_digits=5, decimal_places=2)
 
     gyvatukas = models.FloatField(verbose_name="Gyvatukas", default=0)
 
-    bendra_elektra = models.FloatField(verbose_name="Bendra elektra", default=0)
+    bendra_elektra = models.DecimalField(verbose_name="Bendra elektra", default=Decimal('0.00'), max_digits=5, decimal_places=2)
 
     kaupiamasis = models.FloatField(verbose_name="Kaupiamieji remontui", default=0)
     administravimo = models.FloatField(verbose_name="Administravimo mokestis", default=0)
 
     bendra_sildymo_suma = models.FloatField(verbose_name="Bendra suma už šildymą", default=0)
-    buto_sildymas = models.FloatField(verbose_name="Šildymas", default=0)
+    buto_sildymas = models.DecimalField(verbose_name="Šildymas", default=Decimal('0.00'), max_digits=5, decimal_places=2)
 
-    moketi = models.FloatField(verbose_name="Iš viso mokėti", default=0)
+    moketi = models.DecimalField(verbose_name="Iš viso mokėti", default=Decimal('0.00'), max_digits=5, decimal_places=2)
+
+    # saskaitos_data = models.DateField(verbose_name="Sąskaitos data")
+    # menesis = models.CharField(verbose_name="Mėnuo", max_length=20, choices=BUTO_SASKAITA_CHOICES, null=True)
 
 
+    # created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     # šita vieta neaiški, kaip apskaičiuoti karsto vandens bendra kieki ir sudauginti jį su karšto vandens įkainiu
     def save (self, *args, **kwargs):
