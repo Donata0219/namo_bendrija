@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block "title" %}
+    Daugiabučių namų savininkų benrdija STATYBA
+        {% endblock %}</title>
+</head>
+<body>
+<header>
+
+
+    <h1>Daugiabučių namų savininkų benrdija STATYBA</h1>
+
+</header>
+<main>
+    <div class="container py-5">
+        {% if user.is_authenticated %}
+            Esate prisijungęs kaip {{ user.username }}
+        {% else %}
+            <a href="{% url 'login' %}">Prisijunkite</a>
+        {% endif %}
+
+        {% block "content" %}
+        {% endblock %}
+{% block "Turinys" %}
+
+{% endblock %}
+</main>
+</body>
+</html>

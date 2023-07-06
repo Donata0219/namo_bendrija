@@ -1,6 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render
+from .models import Informacija
 
-# Create your views here.
-def index (request):
-    return HttpResponse ("Daugiabučių namų savininkų bendrija STATYBA")
+def informacija_view(request):
+    informacijos = Informacija.objects.all()
+    context = {'informacijos': informacijos}
+    return render(request, 'index.html', context)

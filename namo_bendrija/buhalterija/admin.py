@@ -11,6 +11,7 @@ class SkaitiklisAdmin(admin.ModelAdmin):
 
 class SaskaitaAdmin(admin.ModelAdmin):
     list_display = [
+        "menesis",
         "butas",
         "gyvatukas",
         "bendra_elektra",

@@ -124,20 +124,20 @@ class ElektrosSkaitiklis(models.Model):
 
 
 class Saskaita (models.Model):
-    # BUTO_SASKAITA_CHOICES = [
-    #     ('sausis', 'Sausis'),
-    #     ('vasaris', 'Vasaris'),
-    #     ('kovas', 'Kovas'),
-    #     ('balandis', 'Balandis'),
-    #     ('geguze', 'Gegužė'),
-    #     ('birzelis', 'Birželis'),
-    #     ('liepa', 'Liepa'),
-    #     ('rugpjutis', 'Rugpjūtis'),
-    #     ('rugsejis', 'Rugsėjis'),
-    #     ('spalis', 'Spalis'),
-    #     ('lapkritis', 'Lapkritis'),
-    #     ('gruodis', 'Gruodis'),
-    # ]
+    BUTO_SASKAITA_CHOICES = [
+        ('sausis', 'Sausis'),
+        ('vasaris', 'Vasaris'),
+        ('kovas', 'Kovas'),
+        ('balandis', 'Balandis'),
+        ('geguze', 'Gegužė'),
+        ('birzelis', 'Birželis'),
+        ('liepa', 'Liepa'),
+        ('rugpjutis', 'Rugpjūtis'),
+        ('rugsejis', 'Rugsėjis'),
+        ('spalis', 'Spalis'),
+        ('lapkritis', 'Lapkritis'),
+        ('gruodis', 'Gruodis'),
+    ]
 
     butas = models.ForeignKey(Butas, on_delete=models.SET_NULL, null=True )
     skaitiklis = models.ForeignKey(Skaitiklis, on_delete=models.SET_NULL, null=True)# ar turi buti SET_NULL, ar CASCADE?
@@ -161,11 +161,11 @@ class Saskaita (models.Model):
 
     moketi = models.DecimalField(verbose_name="Iš viso mokėti", default=Decimal('0.00'), max_digits=5, decimal_places=2)
 
-    # saskaitos_data = models.DateField(verbose_name="Sąskaitos data")
-    # menesis = models.CharField(verbose_name="Mėnuo", max_length=20, choices=BUTO_SASKAITA_CHOICES, null=True)
+    # saskaitos_data = models.DateField(verbose_name="Sąskaitos data", null=True)
+    menesis = models.CharField(verbose_name="Mėnuo", max_length=20, choices=BUTO_SASKAITA_CHOICES, null="Sausis")
 
 
-    # created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # šita vieta neaiški, kaip apskaičiuoti karsto vandens bendra kieki ir sudauginti jį su karšto vandens įkainiu

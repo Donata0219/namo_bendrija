@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+    <h1>Prisijungti</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Prisijungti">
+    </form>
+{% endblock %}
+
+<!--kad paspaudus registracija nusiusti i reikiama puslapi
+<form method="post" action="/kito_url/">
+    {% csrf_token %}
+
+    <input value="Registruoti" type="submit" />
+</form>-->
