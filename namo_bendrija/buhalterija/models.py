@@ -139,7 +139,7 @@ class Saskaita (models.Model):
         ('gruodis', 'Gruodis'),
     ]
 
-    butas = models.ForeignKey(Butas, on_delete=models.SET_NULL, null=True )
+    butas = models.IntegerField(verbose_name="Butas", null=True )
     skaitiklis = models.ForeignKey(Skaitiklis, on_delete=models.SET_NULL, null=True)# ar turi buti SET_NULL, ar CASCADE?
     karsto_vandens_kiekis = models.IntegerField(verbose_name="Suvartoto karšto vandens kiekis", default=0)
     karsto_vandens_ikainis = models.FloatField(verbose_name="Karšto vandens įkainis")
@@ -190,6 +190,8 @@ class Saskaita (models.Model):
 
         # Paskaiciuoju kiek kviekvienas butas turi moketi uz bedrai sunaudota elektra
         self.bendra_elektra = ElektrosSkaitiklis.objects.last().buto_el
+
+        self.butas = Butas.objects.last().buto_numeris
 
         # paskaiciuojama suma vienam butuo uz sildyma. Bendra namo sildymo sumo dalinama ir buto ploto
         self.buto_sildymas = self.bendra_sildymo_suma / Butas.objects.last().buto_plotas

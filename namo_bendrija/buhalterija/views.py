@@ -1,16 +1,12 @@
-from django.http import HttpResponse, request
 from django.shortcuts import render
+from django.views import View
+from .models import Skaitiklis, Saskaita
 
-from .models import Skaitiklis
+class SkaitiklisView(View):
+    def get(self, request):
+        skaitikliai = Skaitiklis.objects.all()
+        return render(request, 'skaitikliai.html', {'skaitikliai': skaitikliai})
 
-
-# Create your views here.
-def mokesciai (request):
-    return HttpResponse ("Gyventojų mokesčiai")
-
-def skaitiklio_parodymai (request):
-    skaitiklio_vieta = request.GET.get("skaitliuko_vieta")
-    iki_reiksme = request.GET.get("iki_reiksme")
-    skaitiklis = Skaitiklis()
-    skaitiklis.save()
-    return HttpResponse(f"skaitiklio_parodymai: {skaitiklio_vieta}, {iki_reiksme} ")
+def saskaita_list(request):
+    saskaitos = Saskaita.objects.all()
+    return render(request, 'saskaita_list.html', {'saskaitos': saskaitos})

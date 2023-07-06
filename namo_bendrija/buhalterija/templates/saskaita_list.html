@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+<title>Sąskaitos</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .apmoketi-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+
+    <h1>Sąskaitos</h1>
+
+    <table>
+        <tr>
+            <th>Mėnuo</th>
+            <th>Butas</th>
+            <th>Karšto vandens kiekis</th>
+            <th>Karšto vandens įkainis</th>
+            <th>Už karštą vandenį</th>
+            <th>Šalto vandens kiekis</th>
+            <th>Šalto vandens įkainis</th>
+            <th>Už šaltą vandenį</th>
+            <th>Gyvatukas</th>
+            <th>Bendra elektra</th>
+            <th>Kaupiamieji remontui</th>
+            <th>Administravimo mokestis</th>
+<!--            <th>Bendra suma už šildymą</th>-->
+            <th>Šildymas</th>
+            <th>Iš viso mokėti</th>
+            <th>Sukurta</th>
+<!--            <th>Atnaujinta</th>-->
+<!--            <th>Veiksmai</th>-->
+        </tr>
+        {% for saskaita in saskaitos %}
+        <tr>
+            <td>{{ saskaita.menesis }}</td>
+            <td>{{ saskaita.butas }}</td>
+            <td>{{ saskaita.karsto_vandens_kiekis }}</td>
+            <td>{{ saskaita.karsto_vandens_ikainis }}</td>
+            <td>{{ saskaita.suma_karsto_vandens }}</td>
+            <td>{{ saskaita.salto_vandens_kiekis }}</td>
+            <td>{{ saskaita.salto_vandens_ikainis }}</td>
+            <td>{{ saskaita.suma_salto_vandens }}</td>
+            <td>{{ saskaita.gyvatukas }}</td>
+            <td>{{ saskaita.bendra_elektra }}</td>
+            <td>{{ saskaita.kaupiamasis }}</td>
+            <td>{{ saskaita.administravimo }}</td>
+<!--            <td>{{ saskaita.bendra_sildymo_suma }}</td>-->
+            <td>{{ saskaita.buto_sildymas }}</td>
+            <td>{{ saskaita.moketi }}</td>
+<!--            <td>{{ saskaita.created_at }}</td>-->
+<!--            <td>{{ saskaita.updated_at }}</td>-->
+            <td>
+                <button class="apmoketi-btn">Apmokėti</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

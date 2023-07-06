@@ -1,8 +1,7 @@
 from django.urls import path
-
-from . import views
+from .views import SkaitiklisView, saskaita_list
 
 urlpatterns = [
-    path ('', views.mokesciai, name = "pasisveikinimas"),
-    path ('tax/', views.skaitiklio_parodymai, name="skaitikliu parodymai"),
+    path('skaitikliai/', SkaitiklisView.as_view(), name='skaitikliai'),
+    path('saskaitos/', saskaita_list, name='saskaita_list')
 ]

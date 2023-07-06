@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+<h4>Pasirinkite skaitiklio vietą ir įveskite "IKI" parodymus </h4>
+    <form method="post">
+        {% csrf_token %}
+        <label for="skaitiklio_vieta">Skaitiklio vieta:</label>
+        <select id="skaitiklio_vieta" name="skaitiklio_vieta">
+            <option value="Šaltas vonios">Šaltas vonios</option>
+            <option value="Šaltas virtuvės">Šaltas virtuvės</option>
+            <option value="Karštas vonios">Karštas vonios</option>
+            <option value="Karštas virtuvės">Karštas virtuvės</option>
+        </select><br><br>
+        <label for="iki_reiksme">Iki:</label>
+        <input type="number" id="iki_reiksme" name="iki_reiksme" value="{{ skaitiklis.iki_reiksme }}" required><br><br>
+        <input type="submit" value="Įvesti">
+    </form>
+
+<!--REIKIA PAGALGOTI APIE MYGTUKO NUORODA "APMOKETI SASKAITAS-->
+<!--<h4>Sąskaitų sąrašas</h4>-->
+<!--    <ul>-->
+<!--    {% for saskaita in saskaitos %}-->
+<!--        <li>{{ saskaita }}</li>-->
+<!--    {% endfor %}-->
+<!--    </ul>-->
+
+
+<!--    <table>-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th>Skaitiklio vieta</th>-->
+<!--                <th>Nuo</th>-->
+<!--                <th>Iki</th>-->
+<!--                <th>Skirtumas</th>-->
+<!--                <th>Butas</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            {% for skaitiklis in skaitikliai %}-->
+<!--            <tr>-->
+<!--                <td>{{ skaitiklis.skaitiklio_vieta }}</td>-->
+<!--                <td>{{ skaitiklis.nuo_reiksme }}</td>-->
+<!--                <td>{{ skaitiklis.iki_reiksme }}</td>-->
+<!--                <td>{{ skaitiklis.skirtumas }}</td>-->
+<!--                <td>{{ skaitiklis.butas }}</td>-->
+<!--            </tr>-->
+<!--            {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
+{% endblock %}
