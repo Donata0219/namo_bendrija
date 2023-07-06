@@ -4,9 +4,21 @@
 <h1>Registracija</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Registuoti">
+        <label for="email">El. paštas:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="first_name">Vardas:</label>
+        <input type="text" id="first_name" name="first_name" required><br><br>
+        <label for="last_name">Pavardė:</label>
+        <input type="text" id="last_name" name="last_name" required><br><br>
+        <label for="phone_number">Tel. numeris:</label>
+        <input type="text" id="phone_number" name="phone_number" required><br><br>
+        <label for="buto_numeris">Buto Numeris:</label>
+        <input type="number" id="buto_numeris" name="buto_numeris" required><br><br>
+        <label for="password">Slaptažodis:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Registruoti">
     </form>
+
 {% endblock %}
 
 <!--kad paspaudus registracija nusiusti i reikiama puslapi

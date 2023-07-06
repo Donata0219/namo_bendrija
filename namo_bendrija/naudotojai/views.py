@@ -1,23 +1,21 @@
 from django.shortcuts import render, redirect
-from django.views import View
 from django.contrib.auth import authenticate, login
+from django.views import View
 from .models import MyUser
-from .forms import UserRegistrationForm, UserLoginForm
 
 class UserRegistrationView(View):
     def get(self, request):
-        form = UserRegistrationForm()
-        return render(request, 'registration.html', {'form': form})
+        return render(request, 'registration.html')
 
     def post(self, request):
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            phone_number = form.cleaned_data['phone_number']
-            buto_numeris = form.cleaned_data['buto_numeris']
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        phone_number = request.POST.get('phone_number')
+        buto_numeris = request.POST.get('buto_numeris')
+        password = request.POST.get('password')
+
+        if email and password:
             user = MyUser.objects.create_user(
                 email=email,
                 first_name=first_name,
@@ -26,23 +24,27 @@ class UserRegistrationView(View):
                 buto_numeris=buto_numeris,
                 password=password
             )
+            login(request, user)
             return redirect('home')
-        return render(request, 'registration.html', {'form': form})
+
+        return render(request, 'registration.html')
 
 class UserLoginView(View):
     def get(self, request):
-        form = UserLoginForm()
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'login.html')
+
     def post(self, request):
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if email and password:
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('home')
-        return render(request, 'login.html', {'form': form})
+
+        return render(request, 'login.html')
+
 class HomeView(View):
     def get(self, request):
         return render(request, 'home.html')
