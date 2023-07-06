@@ -54,7 +54,7 @@ class ButasAdmin (admin.ModelAdmin):
 #     list_display = ("bendra_sildymo_suma",)
 
 class SavininkasAdmin (admin.ModelAdmin):
-    list_display =  ("first_name", "last_name", "phone_number", "naudotojo_profilis")
+    list_display =  ("naudotojo_profilis",)
 
 admin.site.register(Skaitiklis, SkaitiklisAdmin)
 admin.site.register(Savininkas, SavininkasAdmin)

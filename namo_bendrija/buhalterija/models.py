@@ -61,9 +61,9 @@ class Skaitiklis (models.Model):
 
 
 class Savininkas (models.Model):
-    first_name = models.CharField(verbose_name= "Vardas", max_length=80)
-    last_name = models.CharField(verbose_name="Pavardė", max_length=80)
-    phone_number = models.IntegerField(verbose_name="Telefono numeris")
+    # first_name = models.CharField(verbose_name= "Vardas", max_length=80)
+    # last_name = models.CharField(verbose_name="Pavardė", max_length=80)
+    # phone_number = models.IntegerField(verbose_name="Telefono numeris")
     naudotojo_profilis = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)
     # created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -74,7 +74,7 @@ class Savininkas (models.Model):
         verbose_name_plural = "Savininkai"
 
     def __str__(self):
-        return f"{self.first_name}  {self.last_name}"
+        return f"{self.naudotojo_profilis} "
 
 class Butas (models.Model):
     buto_numeris = models.IntegerField()
