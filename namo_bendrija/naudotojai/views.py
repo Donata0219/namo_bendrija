@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.views import View
 from .models import MyUser
 
+
 class UserRegistrationView(View):
     def get(self, request):
         return render(request, 'registration.html')
@@ -25,7 +26,7 @@ class UserRegistrationView(View):
                 password=password
             )
             login(request, user)
-            return redirect('home')
+            return redirect('vartotojo_profilis')
 
         return render(request, 'registration.html')
 
@@ -41,10 +42,14 @@ class UserLoginView(View):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('vartotojo_profilis')
 
         return render(request, 'login.html')
 
-class HomeView(View):
-    def get(self, request):
-        return render(request, 'home.html')
+# class HomeView(View):
+#     def get(self, request):
+#         return render(request, 'home.html')
+
+
+def vartotojo_profilis(request):
+       return render(request, 'vartotojo_profilis.html', {'user': request.user})

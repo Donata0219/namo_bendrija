@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Vartotojo profilis{% endblock %}
+
+{% block content %}
+  <h2>Vartotojo profilis</h2>
+  <p><strong>El. paštas:</strong> {{ user.email }}</p>
+  <p><strong>Vardas:</strong> {{ user.first_name }}</p>
+  <p><strong>Pavardė:</strong> {{ user.last_name }}</p>
+  <p><strong>Tel. numeris:</strong> {{ user.phone_number }}</p>
+  <p><strong>Buto numeris:</strong> {{ user.buto_numeris }}</p>
+{% endblock %}
