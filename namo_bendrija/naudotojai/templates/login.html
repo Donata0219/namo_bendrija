@@ -15,7 +15,7 @@
     {% endif %}
   {% endif %}
 
-    <form method="post" action="{%url 'vartotojo_profilis'%}">
+    <form method="post" action="{%url 'login'%}">
         {% csrf_token %}
         <label for="email">El. paštas:</label>
         <input type="email" id="email" name="email" required><br><br>

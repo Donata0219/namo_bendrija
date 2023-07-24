@@ -16,7 +16,7 @@
 <main>
     <div class="container py-5">
         {% if user.is_authenticated %}
-            Esate prisijungęs kaip {{ user.username }}<br>
+            Esate prisijungęs kaip {{ user.email }}<br>
             <a href="{% url 'logout' %}">Atsijungti</a>
         {% else %}
             <a href="{% url 'login' %}">Prisijungti</a>

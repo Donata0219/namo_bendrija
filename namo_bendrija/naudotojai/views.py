@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views import View
@@ -37,9 +38,15 @@ class UserLoginView(View):
     def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
-
+        print("TIKRINAM PRISIJUNGIMA")
+        print(email, password)
         if email and password:
-            user = authenticate(request, email=email, password=password)
+            user = MyUser.objects.get(email=email)
+            if check_password(password, user.password):
+                print("SLAPTAZODZIAI SUTAMPA")
+                if user.is_active:
+                    login(request, user)
+                print(user)
             if user is not None:
                 login(request, user)
                 return redirect('vartotojo_profilis')

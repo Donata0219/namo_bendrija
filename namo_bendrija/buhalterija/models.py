@@ -140,7 +140,7 @@ class Saskaita (models.Model):
         ('gruodis', 'Gruodis'),
     ]
 
-    butas = models.IntegerField(verbose_name="Butas", null=True )
+    butas = models.ForeignKey(Butas, verbose_name="Butas", on_delete=models.SET_NULL, null=True )
     skaitiklis = models.ForeignKey(Skaitiklis, on_delete=models.SET_NULL, null=True)# ar turi buti SET_NULL, ar CASCADE?
     karsto_vandens_kiekis = models.IntegerField(verbose_name="Suvartoto karšto vandens kiekis", default=0)
     karsto_vandens_ikainis = models.FloatField(verbose_name="Karšto vandens įkainis")
