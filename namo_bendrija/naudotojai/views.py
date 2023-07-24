@@ -52,4 +52,5 @@ class UserLoginView(View):
 
 
 def vartotojo_profilis(request):
+
        return render(request, 'vartotojo_profilis.html', {'user': request.user})
