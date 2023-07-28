@@ -16,18 +16,20 @@
 <main>
     <div class="container py-5">
         {% if user.is_authenticated %}
-            Esate prisijungęs kaip {{ user.email }}<br>
+            Esate prisijungęs su el. paštu  {{ user.email }}<br>
             <a href="{% url 'logout' %}">Atsijungti</a>
         {% else %}
             <a href="{% url 'login' %}">Prisijungti</a>
             <a href="{% url 'registration' %}">Registruotis</a>
         {% endif %}
+    </div>
+{% block "content" %}
 
-        {% block "content" %}
-        {% endblock %}
-{% block "Turinys" %}
 
 {% endblock %}
+<!--{% block "Turinys" %}-->
+
+<!--{% endblock %}-->
 </main>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 {% block title %}Vartotojo profilis{% endblock %}
 
-{% block content %}
+{% block "content" %}
   <h2>Vartotojo profilis</h2>
   <p><strong>El. paštas:</strong> {{ user.email }}</p>
   <p><strong>Vardas:</strong> {{ user.first_name }}</p>
@@ -10,7 +10,7 @@
   <p><strong>Tel. numeris:</strong> {{ user.phone_number }}</p>
   <p><strong>Buto numeris:</strong> {{ user.buto_numeris }}</p>
 <nav>-->
-        <a href="buhalterija/saskaita_list.html">Sąskaitos</a>
-        <a href="buhalterija/skaitikliai.html">Skaitiklių parodymai</a>
+        <a href="{% url 'saskaita_list' %}">Sąskaitos</a>
+        <a href="{% url 'skaitikliai' %}">Skaitiklių parodymai</a>
 </nav>
 {% endblock %}
