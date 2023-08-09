@@ -4,8 +4,8 @@
 <h1>Informacija</h1> <br>
     {% for informacija in informacijos %}
         <h2>{{informacija.pavadinimas}}</h2> <br>
-        {{informacija.informacija}} <br>
-        Data: {{informacija.date_created}}
+        <h4>{{informacija.informacija}}</h4> <br> <br>
+        Įrašo data: {{informacija.date_created}}
     {% empty %}
             <li>Nėra informacijos.</li>
         {% endfor %}

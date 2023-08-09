@@ -1,50 +1,41 @@
 {% extends "base.html" %}
 
 {% block "content" %}
-<h4>Pasirinkite skaitiklio vietą ir įveskite "IKI" parodymus </h4>
-    <form method="post">
+<h4>Prašome įveskiti skaitiklių "IKI" parodymus </h4>
+    <form method="post" action="{% url 'skaitikliai' %}">
         {% csrf_token %}
-        <label for="skaitiklio_vieta">Skaitiklio vieta:</label>
-        <select id="skaitiklio_vieta" name="skaitiklio_vieta">
-            <option value="Šaltas vonios">Šaltas vonios</option>
-            <option value="Šaltas virtuvės">Šaltas virtuvės</option>
-            <option value="Karštas vonios">Karštas vonios</option>
-            <option value="Karštas virtuvės">Karštas virtuvės</option>
-        </select><br><br>
-        <label for="iki_reiksme">Iki:</label>
-        <input type="number" id="iki_reiksme" name="iki_reiksme" value="{{ skaitiklis.iki_reiksme }}" required><br><br>
-        <input type="submit" value="Įvesti">
+
+        <label for="saltas_vonios">Iki (Šaltas vonios):</label>
+        <input type="number" id="saltas_vonios" name="saltas_vonios" required
+               value="{{ skaitikliai.saltas_vonios|default_if_none:'' }}"><br><br>
+
+        <label for="saltas_virtuves">Iki (Šaltas virtuvės):</label>
+        <input type="number" id="saltas_virtuves" name="saltas_virtuves" required
+               value="{{ skaitikliai.saltas_virtuves|default_if_none:'' }}"><br><br>
+
+        <label for="karstas_vonios">Iki (Karštas vonios):</label>
+        <input type="number" id="karstas_vonios" name="karstas_vonios" required
+               value="{{ skaitikliai.karstas_vonios|default_if_none:'' }}"><br><br>
+
+        <label for="karstas_virtuves">Iki (Karštas virtuvės):</label>
+        <input type="number" id="karstas_virtuves" name="karstas_virtuves" required
+               value="{{ skaitikliai.karstas_virtuves|default_if_none:'' }}"><br><br>
+
+        <input type="submit" value="Išsaugoti">
     </form>
+<script>
+function validateForm() {
+    let saltas_vonios = document.getElementById("saltas_vonios").value;
+    let saltas_virtuves = document.getElementById("saltas_virtuves").value;
+    let karstas_vonios = document.getElementById("karstas_vonios").value;
+    let karstas_virtuves = document.getElementById("karstas_virtuves").value;
 
+    if (saltas_vonios === "" || saltas_virtuves === "" || karstas_vonios === "" || karstas_virtuves === "") {
+        alert("Prašome įvesti IKI reiksmes į visus laukus");
+        return false;
+    }
+}
+</script>
 <!--REIKIA PAGALGOTI APIE MYGTUKO NUORODA "APMOKETI SASKAITAS-->
-<!--<h4>Sąskaitų sąrašas</h4>-->
-<!--    <ul>-->
-<!--    {% for saskaita in saskaitos %}-->
-<!--        <li>{{ saskaita }}</li>-->
-<!--    {% endfor %}-->
-<!--    </ul>-->
 
-
-<!--    <table>-->
-<!--        <thead>-->
-<!--            <tr>-->
-<!--                <th>Skaitiklio vieta</th>-->
-<!--                <th>Nuo</th>-->
-<!--                <th>Iki</th>-->
-<!--                <th>Skirtumas</th>-->
-<!--                <th>Butas</th>-->
-<!--            </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--            {% for skaitiklis in skaitikliai %}-->
-<!--            <tr>-->
-<!--                <td>{{ skaitiklis.skaitiklio_vieta }}</td>-->
-<!--                <td>{{ skaitiklis.nuo_reiksme }}</td>-->
-<!--                <td>{{ skaitiklis.iki_reiksme }}</td>-->
-<!--                <td>{{ skaitiklis.skirtumas }}</td>-->
-<!--                <td>{{ skaitiklis.butas }}</td>-->
-<!--            </tr>-->
-<!--            {% endfor %}-->
-<!--        </tbody>-->
-<!--    </table>-->
 {% endblock %}

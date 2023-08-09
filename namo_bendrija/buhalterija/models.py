@@ -9,22 +9,19 @@ from datetime import date
 from naudotojai.models import MyUser
 
 
-# Create your models here.
-
-
-
 class Skaitiklis (models.Model):
-
-    PIRMAS = "Šaltas vonios"
-    ANTRAS = "Šaltas virtuvės"
-    TRECIAS = "Karštas vonios"
-    KETVIRTAS = "Karštas virtuvės"
+    objects = None
+    saltas_vonios = "saltas_vonios"
+    saltas_virtuves = "saltas_virtuves"
+    karstas_vonios = "krstas_vonios"
+    karstas_virtuves = "karstas_virtuves"
     SKAITIKLIU_CHOICES =[
-        (PIRMAS, 'Šaltas vonios'),
-        (ANTRAS, 'Šaltas virtuvės'),
-        (TRECIAS,'Karštas vonios'),
-        (KETVIRTAS, 'Karštas virtuvės')
+        (saltas_vonios, 'Šaltas vonios'),
+        (saltas_virtuves, 'Šaltas virtuvės'),
+        (karstas_vonios, 'Karštas vonios'),
+        (karstas_virtuves, 'Karštas virtuvės')
     ]
+
     skaitiklio_vieta = models.CharField(choices=SKAITIKLIU_CHOICES , max_length=80)
     nuo_reiksme = models.IntegerField(verbose_name="Nuo", null=True, blank=True)
     iki_reiksme = models.IntegerField(verbose_name="Iki")  #įvesti skaitilnių parodymus
@@ -78,6 +75,7 @@ class Savininkas (models.Model):
         return f"{self.naudotojo_profilis} "
 
 class Butas (models.Model):
+    objects = None
     buto_numeris = models.IntegerField()
     savininkas = models.OneToOneField(Savininkas, on_delete=models.SET_NULL, null=True)
     buto_plotas = models.FloatField()
@@ -94,6 +92,7 @@ class Butas (models.Model):
 
 
 class ElektrosSkaitiklis(models.Model):
+    objects = None
     nuo_reiksme_el = models.IntegerField(verbose_name="Nuo", null=True, blank=True)
     iki_reiksme_el = models.IntegerField(verbose_name="Iki")  # įvesti skaitilnių parodymus
     created_at = models.DateTimeField(auto_now_add=True)
@@ -125,6 +124,7 @@ class ElektrosSkaitiklis(models.Model):
 
 
 class Saskaita (models.Model):
+    objects = None
     BUTO_SASKAITA_CHOICES = [
         ('sausis', 'Sausis'),
         ('vasaris', 'Vasaris'),
@@ -217,7 +217,6 @@ class Saskaita (models.Model):
         verbose_name_plural = "Sąskaitos"
 
     def __str__(self):
-        return f"{self.gyvatukas} {self.bendra_elektra} {self. karsto_vandens_ikainis} {self.salto_vandens_ikainis} {self.kaupiamasis} {self.administravimo} {self.moketi}"                f""
-
+        return f"{self.gyvatukas} {self.bendra_elektra} {self. karsto_vandens_ikainis} {self.salto_vandens_ikainis} {self.kaupiamasis} {self.administravimo} {self.moketi}"
 # bendra saskaita viso namo
 
