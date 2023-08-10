@@ -23,6 +23,9 @@
 
         <input type="submit" value="Išsaugoti">
     </form>
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
 <script>
 function validateForm() {
     let saltas_vonios = document.getElementById("saltas_vonios").value;

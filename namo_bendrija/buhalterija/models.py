@@ -31,18 +31,17 @@ class Skaitiklis (models.Model):
     butas = models.ForeignKey( "Butas", on_delete=models.SET_NULL, null=True, blank=True )
     # pasirasysiu save metodas:
 
-    def save (self, *args, **kwargs):
-        if self.iki_reiksme < self.nuo_reiksme:
-            raise ValueError('`Iki reikšmė` turi būti didesnė arba lygi `Nuo reikšmei`')
-    #     paiimame naujausia buvusia reiksme "iki" ir irasome i reiksme "nuo"
-    # isaugoti
+    def save(self, *args, **kwargs):
+        self.iki_reiksme = int(self.iki_reiksme)
+    #     paiimame naujausia buvusia reiksme "iki" ir irasome i reiksme "nuo"  isaugoti
         try:
             buves_irasas = Skaitiklis.objects.filter(skaitiklio_vieta=self.skaitiklio_vieta, butas=self.butas).last()
             buvusi_iki_reiksme = buves_irasas.iki_reiksme
             self.nuo_reiksme = buvusi_iki_reiksme
         except AttributeError:
             pass
-
+        if self.iki_reiksme < self.nuo_reiksme:
+            raise ValueError('`Iki reikšmė` turi būti didesnė arba lygi `Nuo reikšmei`')
         self.skirtumas = self.iki_reiksme - self.nuo_reiksme
 
         super().save(*args, **kwargs)
