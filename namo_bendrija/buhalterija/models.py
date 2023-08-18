@@ -191,7 +191,8 @@ class Saskaita (models.Model):
         # Paskaiciuoju kiek kviekvienas butas turi moketi uz bedrai sunaudota elektra
         self.bendra_elektra = ElektrosSkaitiklis.objects.last().buto_el
 
-        self.butas = Butas.objects.last().buto_numeris
+
+
 
         # paskaiciuojama suma vienam butuo uz sildyma. Bendra namo sildymo sumo dalinama ir buto ploto
         self.buto_sildymas = self.bendra_sildymo_suma / Butas.objects.last().buto_plotas

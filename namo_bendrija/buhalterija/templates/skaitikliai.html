@@ -25,7 +25,7 @@
     </form>
 {% if message %}
 <p>{{ message }}</p>
-{% endif %}
+{% endif %}<br>
 <script>
 function validateForm() {
     let saltas_vonios = document.getElementById("saltas_vonios").value;
@@ -40,5 +40,9 @@ function validateForm() {
 }
 </script>
 <!--REIKIA PAGALGOTI APIE MYGTUKO NUORODA "APMOKETI SASKAITAS-->
+<nav>-->
+    <a href="{% url 'vartotojo_profilis' %}">Atgal į vartotojo profilį</a>
+    <a href="{% url 'saskaita_list' %}">Sąskaitos</a>
 
+</nav>
 {% endblock %}
