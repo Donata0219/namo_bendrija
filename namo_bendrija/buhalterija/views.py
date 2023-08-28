@@ -4,6 +4,11 @@ from .models import Skaitiklis, Saskaita
 
 class SkaitiklisView(View):
     template_name = 'skaitikliai.html'
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.method = None
+
     def get(self, request):
         skaitikliai = Skaitiklis.objects.all()
         return render(request, 'skaitikliai.html', {'skaitikliai': skaitikliai})
@@ -27,6 +32,8 @@ class SkaitiklisView(View):
         skaitiklis4.save()
 
         return render(request, 'skaitikliai.html', {'message': 'Duomenys išsaugoti!'})
+
+
 
 def saskaita_list(request):
     if request.user.is_admin:
