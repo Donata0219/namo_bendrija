@@ -10,10 +10,10 @@ from naudotojai.models import MyUser
 
 
 class Skaitiklis (models.Model):
-    objects = None
+    # objects = None
     saltas_vonios = "saltas_vonios"
     saltas_virtuves = "saltas_virtuves"
-    karstas_vonios = "krstas_vonios"
+    karstas_vonios = "karstas_vonios"
     karstas_virtuves = "karstas_virtuves"
     SKAITIKLIU_CHOICES =[
         (saltas_vonios, 'Šaltas vonios'),
@@ -109,7 +109,7 @@ class ElektrosSkaitiklis(models.Model):
             pass
 
         self.skirtumas_el = self.iki_reiksme_el - self.nuo_reiksme_el
-        self.buto_el = self.skirtumas_el * self.ikainis_el / 35
+        self.buto_el =round(self.skirtumas_el * self.ikainis_el / 35, 2)
 
         super().save(*args, **kwargs)
 
@@ -143,23 +143,23 @@ class Saskaita (models.Model):
     skaitiklis = models.ForeignKey(Skaitiklis, on_delete=models.SET_NULL, null=True)# ar turi buti SET_NULL, ar CASCADE?
     karsto_vandens_kiekis = models.IntegerField(verbose_name="Suvartoto karšto vandens kiekis", default=0)
     karsto_vandens_ikainis = models.FloatField(verbose_name="Karšto vandens įkainis")
-    suma_karsto_vandens = models.DecimalField(verbose_name="Už karštą vandenį", default=Decimal('0.00'), max_digits=5, decimal_places=2)
+    suma_karsto_vandens = models.DecimalField(verbose_name="Už karštą vandenį", default=0, max_digits=10, decimal_places=2)
 
     salto_vandens_kiekis = models.IntegerField(verbose_name="Suvartoto šalto vandens kiekis", default=0)
     salto_vandens_ikainis = models.FloatField(verbose_name="Šalto vandens įkainis")
-    suma_salto_vandens = models.DecimalField(verbose_name="Už šaltą vandenį", default=Decimal('0.00'), max_digits=5, decimal_places=2)
+    suma_salto_vandens = models.DecimalField(verbose_name="Už šaltą vandenį", default=0, max_digits=10, decimal_places=2)
 
     gyvatukas = models.FloatField(verbose_name="Gyvatukas", default=0)
 
-    bendra_elektra = models.DecimalField(verbose_name="Bendra elektra", default=Decimal('0.00'), max_digits=5, decimal_places=2)
+    bendra_elektra = models.DecimalField(verbose_name="Bendra elektra", default=0, max_digits=10, decimal_places=2)
 
     kaupiamasis = models.FloatField(verbose_name="Kaupiamieji remontui", default=0)
     administravimo = models.FloatField(verbose_name="Administravimo mokestis", default=0)
 
     bendra_sildymo_suma = models.FloatField(verbose_name="Bendra suma už šildymą", default=0)
-    buto_sildymas = models.DecimalField(verbose_name="Šildymas", default=Decimal('0.00'), max_digits=5, decimal_places=2)
+    buto_sildymas = models.DecimalField(verbose_name="Šildymas", default=0, max_digits=10, decimal_places=2)
 
-    moketi = models.DecimalField(verbose_name="Iš viso mokėti", default=Decimal('0.00'), max_digits=5, decimal_places=2)
+    moketi = models.DecimalField(verbose_name="Iš viso mokėti", default=0, max_digits=10, decimal_places=2)
 
     # saskaitos_data = models.DateField(verbose_name="Sąskaitos data", null=True)
     menesis = models.CharField(verbose_name="Mėnuo", max_length=20, choices=BUTO_SASKAITA_CHOICES, null="Sausis")
@@ -172,30 +172,31 @@ class Saskaita (models.Model):
     def save (self, *args, **kwargs):
         # bendras karsto vandens kiekis vonioje ir virtuveje
         karsto_vandens_kiekis = 0
-        skaitikliai = Skaitiklis.objects.filter(skaitiklio_vieta__in=["Karštas vonios", "Karštas virtuvės"], butas=self.butas)
+        skaitikliai = Skaitiklis.objects.filter(skaitiklio_vieta__in=["karstas_vonios", "karstas_virtuves"], butas=self.butas)
+
         for skaitiklis in skaitikliai:
             karsto_vandens_kiekis += skaitiklis.skirtumas
         self.karsto_vandens_kiekis = karsto_vandens_kiekis
         # apskaiciuoju moketina suma uz karsta vandeni
-        self.suma_karsto_vandens = self.karsto_vandens_ikainis * self.karsto_vandens_kiekis
+        self.suma_karsto_vandens = round(self.karsto_vandens_ikainis * self.karsto_vandens_kiekis, 2)
 
         # Bendras salto vandens kiekis vonioje ir virtuveje
         salto_vandens_kiekis = 0
-        skaitikliai = Skaitiklis.objects.filter(skaitiklio_vieta__in=["Šaltas vonios", "Šaltas virtuvės"], butas=self.butas)
+        skaitikliai = Skaitiklis.objects.filter(skaitiklio_vieta__in=["saltas_vonios", "saltas_virtuves"], butas=self.butas)
         for skaitiklis in skaitikliai:
             salto_vandens_kiekis += skaitiklis.skirtumas
         self.salto_vandens_kiekis = salto_vandens_kiekis
         # apskaiciuoju moketina suma uz salta vandeni
-        self.suma_salto_vandens = self.salto_vandens_ikainis * self.salto_vandens_kiekis
+        self.suma_salto_vandens = round(self.salto_vandens_ikainis * self.salto_vandens_kiekis, 2)
 
         # Paskaiciuoju kiek kviekvienas butas turi moketi uz bedrai sunaudota elektra
-        self.bendra_elektra = ElektrosSkaitiklis.objects.last().buto_el
+        self.bendra_elektra = round(ElektrosSkaitiklis.objects.last().buto_el, 2)
 
 
 
 
-        # paskaiciuojama suma vienam butuo uz sildyma. Bendra namo sildymo sumo dalinama ir buto ploto
-        self.buto_sildymas = self.bendra_sildymo_suma / Butas.objects.last().buto_plotas
+        # paskaiciuojama suma vienam butui uz sildyma. Gaunamas 1 kv. meto įkainis, kuris padauginamas iš buto ploto
+        self.buto_sildymas = round(self.bendra_sildymo_suma * Butas.objects.last().buto_plotas, 2)
 
         #  suskaiciuojama suma, uz visus mokescius
         self.moketi = (
