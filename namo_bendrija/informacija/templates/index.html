@@ -2,13 +2,18 @@
 
 {% block "content" %}
 <h1>Informacija</h1> <br>
-    {% for informacija in informacijos %}
+    {% for informacija in informacija %}
         <h2>{{informacija.pavadinimas}}</h2> <br>
         <h4>{{informacija.informacija}}</h4> <br> <br>
         Įrašo data: {{informacija.date_created}}
     {% empty %}
             <li>Nėra informacijos.</li>
         {% endfor %}
+<nav>-->
+    <a href="{% url 'vartotojo_profilis' %}">Atgal į vartotojo profilį</a>
+    <a href="{% url 'skaitikliai' %}">Skaitiklių parodymai</a>
+    <a href="{% url 'saskaita_list' %}">Sąskaitos</a>
+</nav>
 {% endblock %}
 
 

@@ -2,7 +2,10 @@
 
 {% block title %}Vartotojo profilis{% endblock %}
 
-{% block "content" %}
+{% block "content" %}<br>
+<nav>
+    <a href="{% url 'informacija' %}"> Informacija</a>
+</nav>
   <h2>Vartotojo profilis</h2>
   <p><strong>El. paštas:</strong> {{ user.email }}</p>
   <p><strong>Vardas:</strong> {{ user.first_name }}</p>

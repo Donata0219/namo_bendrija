@@ -39,7 +39,10 @@ class Skaitiklis (models.Model):
             buvusi_iki_reiksme = buves_irasas.iki_reiksme
             self.nuo_reiksme = buvusi_iki_reiksme
         except AttributeError:
-            pass
+            buves_irasas = None
+            if buves_irasas is None:
+                buvusi_iki_reiksme = 0
+                self.nuo_reiksme = buvusi_iki_reiksme
         if self.iki_reiksme < self.nuo_reiksme:
             raise ValueError('`Iki reikšmė` turi būti didesnė arba lygi `Nuo reikšmei`')
         self.skirtumas = self.iki_reiksme - self.nuo_reiksme
@@ -219,5 +222,5 @@ class Saskaita (models.Model):
 
     def __str__(self):
         return f"{self.gyvatukas} {self.bendra_elektra} {self. karsto_vandens_ikainis} {self.salto_vandens_ikainis} {self.kaupiamasis} {self.administravimo} {self.moketi}"
-# bendra saskaita viso namo
+
 
